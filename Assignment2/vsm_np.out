@@ -1,8 +1,8 @@
 Query: ['bank']
 ----------------------------------------
 DID: 83
-bank     -> | D19:22 | D29:12,12 | D52:22 | D59:3,3 | D72:7 | D83:1,1,1 | D88:17 | D89:20 | D91:24 |
-billion  -> | D17:8 | D28:5 | D35:13,13 | D50:8 | D58:5 | D63:7,7 | D83:9,9,9 | D89:14 | D90:8 | D97:22 |
+bank     -> | D19:22 | D29:12,36 | D52:22 | D59:3,27 | D72:7 | D83:1,18,23 | D88:17 | D89:20 | D91:24 |
+billion  -> | D17:8 | D28:5 | D35:13,21 | D50:8 | D58:5 | D63:7,9 | D83:9,25,27 | D89:14 | D90:8 | D97:22 |
 agreed   -> | D83:5 |
 principle -> | D83:6 |
 revision -> | D83:7 |
@@ -11,8 +11,8 @@ Magnitude of the document vector: 9.47
 Similarity score: 0.37
 ----------------------------------------
 DID: 59
-debt     -> | D18:17 | D27:8 | D28:13 | D29:22,22,22 | D35:5 | D36:16 | D51:17 | D57:8 | D58:13 | D59:13,13,13 | D83:10 | D89:15 |
-bank     -> | D19:22 | D29:12,12 | D52:22 | D59:3,3 | D72:7 | D83:1,1,1 | D88:17 | D89:20 | D91:24 |
+debt     -> | D18:17 | D27:8 | D28:13 | D29:22,27,32 | D35:5 | D36:16 | D51:17 | D57:8 | D58:13 | D59:13,18,23 | D83:10 | D89:15 |
+bank     -> | D19:22 | D29:12,36 | D52:22 | D59:3,27 | D72:7 | D83:1,18,23 | D88:17 | D89:20 | D91:24 |
 even     -> | D29:15 | D59:6 |
 fail     -> | D29:20 | D59:11 |
 service  -> | D29:21 | D59:12 |
@@ -21,9 +21,9 @@ Magnitude of the document vector: 8.18
 Similarity score: 0.28
 ----------------------------------------
 DID: 29
-losse    -> | D29:4,4 | D58:29 | D59:25 |
-debt     -> | D18:17 | D27:8 | D28:13 | D29:22,22,22 | D35:5 | D36:16 | D51:17 | D57:8 | D58:13 | D59:13,13,13 | D83:10 | D89:15 |
-bank     -> | D19:22 | D29:12,12 | D52:22 | D59:3,3 | D72:7 | D83:1,1,1 | D88:17 | D89:20 | D91:24 |
+losse    -> | D29:4,34 | D58:29 | D59:25 |
+debt     -> | D18:17 | D27:8 | D28:13 | D29:22,27,32 | D35:5 | D36:16 | D51:17 | D57:8 | D58:13 | D59:13,18,23 | D83:10 | D89:15 |
+bank     -> | D19:22 | D29:12,36 | D52:22 | D59:3,27 | D72:7 | D83:1,18,23 | D88:17 | D89:20 | D91:24 |
 however  -> | D29:1 | D58:26 |
 even     -> | D29:15 | D59:6 |
 Number of unique keywords in document: 33
@@ -35,7 +35,7 @@ Spended Time: 0.000000s
 Query: ['stock', 'banking']
 ----------------------------------------
 DID: 18
-week     -> | D0:3 | D1:1 | D3:18 | D18:3,3 | D27:25 | D51:3,3 | D57:25 |
+week     -> | D0:3 | D1:1 | D3:18 | D18:3,26 | D27:25 | D51:3,26 | D57:25 |
 fell     -> | D18:2 | D51:2 |
 issue    -> | D18:8 | D51:8 |
 suspended -> | D18:11 | D51:11 |
@@ -45,7 +45,7 @@ Magnitude of the document vector: 11.95
 Similarity score: 0.27
 ----------------------------------------
 DID: 51
-week     -> | D0:3 | D1:1 | D3:18 | D18:3,3 | D27:25 | D51:3,3 | D57:25 |
+week     -> | D0:3 | D1:1 | D3:18 | D18:3,26 | D27:25 | D51:3,26 | D57:25 |
 fell     -> | D18:2 | D51:2 |
 issue    -> | D18:8 | D51:8 |
 suspended -> | D18:11 | D51:11 |
@@ -73,15 +73,15 @@ repeated -> | D64:1 |
 projection -> | D64:4 |
 probably -> | D64:10 |
 range    -> | D64:17 |
-share    -> | D37:8,8 | D38:6,6 | D39:8,8 | D40:15 | D43:9 | D62:24 | D64:15,15 | D65:16 | D78:7,7 | D79:8 | D80:7,7,7 | D94:25 |
+share    -> | D37:8,28 | D38:6,12 | D39:8,16 | D40:15 | D43:9 | D62:24 | D64:15,18 | D65:16 | D78:7,19 | D79:8 | D80:7,9,15 | D94:25 |
 Number of unique keywords in document: 18
 Magnitude of the document vector: 10.22
 Similarity score: 0.31
 ----------------------------------------
 DID: 37
-shareholder -> | D37:9,9 | D67:41 |
-board    -> | D32:2 | D37:2,2 | D77:3 |
-April    -> | D5:22 | D6:0 | D9:6 | D10:14 | D37:11,11 | D45:27 | D70:26 | D78:23 | D93:11 |
+shareholder -> | D37:9,18 | D67:41 |
+board    -> | D32:2 | D37:2,15 | D77:3 |
+April    -> | D5:22 | D6:0 | D9:6 | D10:14 | D37:11,21 | D45:27 | D70:26 | D78:23 | D93:11 |
 voted    -> | D37:16 |
 annual   -> | D37:19 |
 Number of unique keywords in document: 22
@@ -89,7 +89,7 @@ Magnitude of the document vector: 13.90
 Similarity score: 0.31
 ----------------------------------------
 DID: 80
-share    -> | D37:8,8 | D38:6,6 | D39:8,8 | D40:15 | D43:9 | D62:24 | D64:15,15 | D65:16 | D78:7,7 | D79:8 | D80:7,7,7 | D94:25 |
+share    -> | D37:8,28 | D38:6,12 | D39:8,16 | D40:15 | D43:9 | D62:24 | D64:15,18 | D65:16 | D78:7,19 | D79:8 | D80:7,9,15 | D94:25 |
 nine     -> | D80:3 |
 second   -> | D80:12 |
 beverage -> | D80:17 |
@@ -103,10 +103,10 @@ Spended Time: 0.000000s
 Query: ['company', 'benefit', 'share']
 ----------------------------------------
 DID: 67
-benefit  -> | D67:14,14 |
-company  -> | D36:0 | D37:0,0 | D39:0,0 | D40:0 | D42:0 | D44:0 | D48:11,11 | D60:13 | D64:3 | D67:0,0,0,0 | D75:0 | D77:9 | D78:11,11 |
-Dean     -> | D62:0 | D66:2 | D67:8,8 |
-acquisition -> | D34:12 | D44:6 | D45:2 | D46:9 | D67:19,19 | D81:31 | D82:12 |
+benefit  -> | D67:14,29 |
+company  -> | D36:0 | D37:0,12 | D39:0,31 | D40:0 | D42:0 | D44:0 | D48:11,12 | D60:13 | D64:3 | D67:0,11,27,39 | D75:0 | D77:9 | D78:11,29 |
+Dean     -> | D62:0 | D66:2 | D67:8,24 |
+acquisition -> | D34:12 | D44:6 | D45:2 | D46:9 | D67:19,31 | D81:31 | D82:12 |
 priced   -> | D67:4 |
 Number of unique keywords in document: 41
 Magnitude of the document vector: 10.57
@@ -117,15 +117,15 @@ repeated -> | D64:1 |
 projection -> | D64:4 |
 probably -> | D64:10 |
 range    -> | D64:17 |
-share    -> | D37:8,8 | D38:6,6 | D39:8,8 | D40:15 | D43:9 | D62:24 | D64:15,15 | D65:16 | D78:7,7 | D79:8 | D80:7,7,7 | D94:25 |
+share    -> | D37:8,28 | D38:6,12 | D39:8,16 | D40:15 | D43:9 | D62:24 | D64:15,18 | D65:16 | D78:7,19 | D79:8 | D80:7,9,15 | D94:25 |
 Number of unique keywords in document: 18
 Magnitude of the document vector: 10.22
 Similarity score: 0.26
 ----------------------------------------
 DID: 37
-shareholder -> | D37:9,9 | D67:41 |
-board    -> | D32:2 | D37:2,2 | D77:3 |
-April    -> | D5:22 | D6:0 | D9:6 | D10:14 | D37:11,11 | D45:27 | D70:26 | D78:23 | D93:11 |
+shareholder -> | D37:9,18 | D67:41 |
+board    -> | D32:2 | D37:2,15 | D77:3 |
+April    -> | D5:22 | D6:0 | D9:6 | D10:14 | D37:11,21 | D45:27 | D70:26 | D78:23 | D93:11 |
 voted    -> | D37:16 |
 annual   -> | D37:19 |
 Number of unique keywords in document: 22
@@ -137,8 +137,8 @@ Spended Time: 0.000000s
 Query: ['Brown', 'Forman']
 ----------------------------------------
 DID: 81
-Brown    -> | D77:0,0 | D78:0 | D79:0 | D80:0 | D81:0,0,0 | D82:0 |
-Forman   -> | D77:1,1 | D78:1 | D79:1 | D80:1 | D81:1,1,1 | D82:1 |
+Brown    -> | D77:0,12 | D78:0 | D79:0 | D80:0 | D81:0,10,26 | D82:0 |
+Forman   -> | D77:1,13 | D78:1 | D79:1 | D80:1 | D81:1,11,27 | D82:1 |
 corporate -> | D81:4 |
 Shearson -> | D81:16 |
 Lehman   -> | D81:17 |
@@ -147,17 +147,17 @@ Magnitude of the document vector: 11.01
 Similarity score: 0.52
 ----------------------------------------
 DID: 77
-dividend -> | D77:11,11 | D78:17 |
-cash     -> | D77:10,10 | D78:16 | D81:13 |
-Brown    -> | D77:0,0 | D78:0 | D79:0 | D80:0 | D81:0,0,0 | D82:0 |
-Forman   -> | D77:1,1 | D78:1 | D79:1 | D80:1 | D81:1,1,1 | D82:1 |
+dividend -> | D77:11,24 | D78:17 |
+cash     -> | D77:10,20 | D78:16 | D81:13 |
+Brown    -> | D77:0,12 | D78:0 | D79:0 | D80:0 | D81:0,10,26 | D82:0 |
+Forman   -> | D77:1,13 | D78:1 | D79:1 | D80:1 | D81:1,11,27 | D82:1 |
 cited    -> | D77:14 |
 Number of unique keywords in document: 21
 Magnitude of the document vector: 14.21
 Similarity score: 0.40
 ----------------------------------------
 DID: 79
-increase -> | D37:22 | D39:17 | D77:8 | D79:4,4 |
+increase -> | D37:22 | D39:17 | D77:8 | D79:4,10 |
 third    -> | D64:6 | D79:5 |
 reported -> | D30:2 | D62:22 | D79:3 |
 seven    -> | D35:12 | D44:10 | D79:9 |

@@ -49,7 +49,7 @@ class Vector(object):
         print(' D%d:' % self.did, end = '')
         print('%d' % self.term_index[word][0], end = '')
         for i in range(1, len(self.term_index[word])):
-            print(',%d' % self.term_index[word][0], end = '')
+            print(',%d' % self.term_index[word][i], end = '')
         print(' |', end = '')
 
 class InvertedFile(object):
