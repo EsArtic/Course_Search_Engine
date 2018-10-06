@@ -2,6 +2,7 @@
 
 import math
 import time
+import numpy as np
 
 # INPUT_PATH = '../data/'
 INPUT_PATH = './'
@@ -18,14 +19,11 @@ class Vector(object):
             term_frequency: dictionary, map keywords to its frequency.
             term_index: dictionary, map keywords to a list of positions in
             the document.
-            weights: dictionary, map keywords to its weights by the scheme
-            of tf / max_tf * idf.
     '''
     def __init__(self, text, did = -1):
         self.did = did
         self.term_frequency = {}
         self.term_index = {}
-        self.weights = {}
         for i in range(len(text)):
             word = text[i]
             if word in self.term_frequency.keys():
@@ -34,10 +32,6 @@ class Vector(object):
             else:
                 self.term_frequency[word] = 1
                 self.term_index[word] = [i]
-                self.weights[word] = 0.0
-
-    def set_weight(self, word, value):
-        self.weights[word] = value
 
     def get_id(self):
         return self.did
@@ -46,26 +40,10 @@ class Vector(object):
         return sorted(self.term_frequency.items(), key = lambda x: x[1])[-1][1]
 
     def get_tf(self, term):
-        if term in self.term_frequency.keys():
-            return self.term_frequency[term]
-        else:
-            return 0.0
+        return self.term_frequency[term]
 
     def get_terms(self):
         return self.term_frequency.keys()
-
-    def get_weight(self, term):
-        if term in self.weights.keys():
-            return self.weights[term]
-        else:
-            return 0.0
-
-    def get_weights(self):
-        return self.weights.values()
-
-    def get_top_n_terms(self, n):
-        n = min(n, len(self.weights.keys()))
-        return sorted(self.weights.items(), key = lambda x: x[1], reverse = True)[: n]
 
     def display_term_index(self, word):
         print(' D%d:' % self.did, end = '')
@@ -96,10 +74,35 @@ class InvertedFile(object):
         else:
             return False
 
+class VectorSpace(object):
+    '''
+        Abstract data structure for the vectorspace. Maintains the documents'
+        weights vector into a big matrix, while the row indexes are document
+        id and column indexes are term id in the dictionary.
+
+        Attrs:
+            vectorspace: np.array, the matrix holding documents' weights vectors.
+    '''
+    def __init__(self, documents, keywords, inverted_file):
+        self.vectorspace = np.zeros((len(documents), len(keywords)))
+        for document in documents:
+            did = document.get_id()
+            for word in document.get_terms():
+                tid = keywords[word]
+                idf = math.log(len(documents) / len(inverted_file.get_documents(word)), 2)
+                max_tf = document.get_max_tf()
+                tf = document.get_tf(word)
+                self.vectorspace[did, tid] = tf / max_tf * idf
+
+    def get_weights_vector(self, did):
+        return self.vectorspace[did, :]
+
+    def get_weight(self, did, tid):
+        return self.vectorspace[did, tid]
+
 class QueryResult(object):
     '''
         Abstract data structure for query result.
-
         Attrs:
             did: int, document id for the matched document.
             posting_list: list, containing the top five weighted keywords of the
@@ -138,6 +141,7 @@ class DataManager(object):
         Attrs:
             documents: list, storing all the documents in the system.
             inverted_file: InvertedFile, the inverted file index for the documents.
+            vspace: VectorSpace, the set of all the documents' weights vectors.
             dictionary: dictionary, map keywords to their term id, which are the
             indexes in the vector space.
     '''
@@ -148,52 +152,15 @@ class DataManager(object):
         for i, term in enumerate(word_file_map.keys()):
             self.dictionary[term] = i
 
-        for document in self.documents:
-            did = document.get_id()
-            for word in document.get_terms():
-                idf = math.log(len(documents) / len(word_file_map[word]), 2)
-                max_tf = document.get_max_tf()
-                tf = document.get_tf(word)
-                weight = tf / max_tf * idf
-                self.documents[did].set_weight(word, weight)
+        self.vspace = VectorSpace(documents, self.dictionary, self.inverted_file)
 
     def magnitude(self, vector):
-        accumulate = 0
-        for weight in vector.get_weights():
-            accumulate += weight ** 2
-        return math.sqrt(accumulate)
+        return np.linalg.norm(vector, ord = 2)
 
     def similarity(self, v1, v2):
-        sim = 0.0
-        for word in v2.get_terms():
-            sim += v1.get_weight(word) * v2.get_weight(word)
-
+        sim = np.dot(v1, v2)
         sim /= self.magnitude(v1) * self.magnitude(v2)
         return sim
-
-    def get_query_result(self, query):
-        ret = []
-        rank_list = {}
-        candidates = self.get_documents_by_terms(query.get_terms())
-        for did in candidates:
-            document = self.documents[did]
-            sim = self.similarity(document, query)
-            rank_list[did] = sim
-
-        result = sorted(rank_list.items(), key = lambda x: x[1], reverse = True)[:3]
-
-        for did, sim in result:
-            document = self.documents[did]
-            magnitude = self.magnitude(document)
-            num_terms = len(document.get_terms())
-            words = document.get_top_n_terms(5)
-            postinglist = []
-            for word, weight in words:
-                dids = self.get_documents_by_term(word)
-                postinglist.append([word, dids])
-            ret.append(QueryResult(did, postinglist, num_terms, magnitude, sim))
-
-        return ret
 
     def get_documents_by_term(self, word):
         return self.inverted_file.get_documents(word)
@@ -214,6 +181,45 @@ class DataManager(object):
                 print('\'%s\' has not been collected in the dictionary.' % word)
 
         return candidates
+
+    def get_top_n_terms(self, did, n):
+        document = self.documents[did]
+        rank_list = {}
+        for word in document.get_terms():
+            rank_list[word] = self.vspace.get_weight(did, self.dictionary[word])
+
+        n = min(n, len(rank_list.keys()))
+        return sorted(rank_list.items(), key = lambda x: x[1], reverse = True)[: n]
+
+    def get_query_result(self, query):
+        ret = []
+        rank_list = {}
+        candidates = self.get_documents_by_terms(query.get_terms())
+        query_vector = np.zeros(len(self.dictionary))
+
+        for word in query.get_terms():
+            if word in self.dictionary.keys():
+                query_vector[self.dictionary[word]] = query.get_tf(word)
+
+        for did in candidates:
+            document = self.documents[did]
+            sim = self.similarity(self.vspace.get_weights_vector(did), query_vector)
+            rank_list[did] = sim
+
+        result = sorted(rank_list.items(), key = lambda x: x[1], reverse = True)[:3]
+
+        for did, sim in result:
+            document = self.documents[did]
+            magnitude = self.magnitude(self.vspace.get_weights_vector(did))
+            num_terms = len(document.get_terms())
+            words = self.get_top_n_terms(did, 5)
+            postinglist = []
+            for word, weight in words:
+                dids = self.get_documents_by_term(word)
+                postinglist.append([word, dids])
+            ret.append(QueryResult(did, postinglist, num_terms, magnitude, sim))
+
+        return ret
 
     def display_posting_list(self, word, dids):
         for did in dids:
@@ -297,8 +303,6 @@ class VSM(object):
         start = time.time()
 
         query = Vector(query)
-        for word in query.get_terms():
-            query.set_weight(word, query.get_tf(word))
 
         query_result = self.data_manager.get_query_result(query)
         for result in query_result:
