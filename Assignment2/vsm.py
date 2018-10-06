@@ -321,7 +321,7 @@ def main():
 
     vsm_object = VSM(INPUT_PATH + collection)
     # vsm_object.do_query(['is', 'a', 'bank'])
-    # vsm_object.batch_query(INPUT_PATH + queries)
+    vsm_object.batch_query(INPUT_PATH + queries)
 
 if __name__ == '__main__':
     main()
