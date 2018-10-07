@@ -21,35 +21,35 @@ class Vector(object):
             the document.
     '''
     def __init__(self, text, did = -1):
-        self.did = did
-        self.term_frequency = {}
-        self.term_index = {}
+        self.__did = did
+        self.__term_frequency = {}
+        self.__term_index = {}
         for i in range(len(text)):
             word = text[i]
-            if word in self.term_frequency.keys():
-                self.term_frequency[word] += 1
-                self.term_index[word].append(i)
+            if word in self.__term_frequency.keys():
+                self.__term_frequency[word] += 1
+                self.__term_index[word].append(i)
             else:
-                self.term_frequency[word] = 1
-                self.term_index[word] = [i]
+                self.__term_frequency[word] = 1
+                self.__term_index[word] = [i]
 
     def get_id(self):
-        return self.did
+        return self.__did
 
     def get_max_tf(self):
-        return sorted(self.term_frequency.items(), key = lambda x: x[1])[-1][1]
+        return sorted(self.__term_frequency.items(), key = lambda x: x[1])[-1][1]
 
     def get_tf(self, term):
-        return self.term_frequency[term]
+        return self.__term_frequency[term]
 
     def get_terms(self):
-        return self.term_frequency.keys()
+        return self.__term_frequency.keys()
 
     def display_term_index(self, word):
-        print(' D%d:' % self.did, end = '')
-        print('%d' % self.term_index[word][0], end = '')
-        for i in range(1, len(self.term_index[word])):
-            print(',%d' % self.term_index[word][i], end = '')
+        print(' D%d:' % self.__did, end = '')
+        print('%d' % self.__term_index[word][0], end = '')
+        for i in range(1, len(self.__term_index[word])):
+            print(',%d' % self.__term_index[word][i], end = '')
         print(' |', end = '')
 
 class InvertedFile(object):
@@ -60,16 +60,16 @@ class InvertedFile(object):
             index: dictionary, map keywords to a list of document id.
     '''
     def __init__(self, word_file_map):
-        self.index = word_file_map
+        self.__index = word_file_map
 
     def get_documents(self, term):
-        if term in self.index.keys():
-            return self.index[term]
+        if term in self.__index.keys():
+            return self.__index[term]
         else:
             return None
 
     def exist(self, term):
-        if term in self.index.keys():
+        if term in self.__index.keys():
             return True
         else:
             return False
@@ -84,7 +84,7 @@ class VectorSpace(object):
             vectorspace: np.array, the matrix holding documents' weights vectors.
     '''
     def __init__(self, documents, keywords, inverted_file):
-        self.vectorspace = np.zeros((len(documents), len(keywords)))
+        self.__vectorspace = np.zeros((len(documents), len(keywords)))
         for document in documents:
             did = document.get_id()
             for word in document.get_terms():
@@ -92,13 +92,13 @@ class VectorSpace(object):
                 idf = math.log(len(documents) / len(inverted_file.get_documents(word)), 2)
                 max_tf = document.get_max_tf()
                 tf = document.get_tf(word)
-                self.vectorspace[did, tid] = tf / max_tf * idf
+                self.__vectorspace[did, tid] = tf / max_tf * idf
 
     def get_weights_vector(self, did):
-        return self.vectorspace[did, :]
+        return self.__vectorspace[did, :]
 
     def get_weight(self, did, tid):
-        return self.vectorspace[did, tid]
+        return self.__vectorspace[did, tid]
 
 class QueryResult(object):
     '''
@@ -113,26 +113,26 @@ class QueryResult(object):
             sim_score: float, similarity score.
     '''
     def __init__(self, did, postinglist, numkeywords, magnitude, simscore):
-        self.did = did
-        self.posting_list = postinglist
-        self.num_keywords = numkeywords
-        self.magnitude = magnitude
-        self.sim_score = simscore
+        self.__did = did
+        self.__posting_list = postinglist
+        self.__num_keywords = numkeywords
+        self.__magnitude = magnitude
+        self.__sim_score = simscore
 
     def get_id(self):
-        return self.did
+        return self.__did
 
     def get_list(self):
-        return self.posting_list
+        return self.__posting_list
 
     def get_num(self):
-        return self.num_keywords
+        return self.__num_keywords
 
     def get_magnitude(self):
-        return self.magnitude
+        return self.__magnitude
 
     def get_sim_score(self):
-        return self.sim_score
+        return self.__sim_score
 
 class DataManager(object):
     '''
@@ -146,13 +146,13 @@ class DataManager(object):
             indexes in the vector space.
     '''
     def __init__(self, word_file_map, documents):
-        self.documents = documents
-        self.inverted_file = InvertedFile(word_file_map)
-        self.dictionary = {}
+        self.__documents = documents
+        self.__inverted_file = InvertedFile(word_file_map)
+        self.__dictionary = {}
         for i, term in enumerate(word_file_map.keys()):
-            self.dictionary[term] = i
+            self.__dictionary[term] = i
 
-        self.vspace = VectorSpace(documents, self.dictionary, self.inverted_file)
+        self.__vspace = VectorSpace(documents, self.__dictionary, self.__inverted_file)
 
     def magnitude(self, vector):
         return np.linalg.norm(vector, ord = 2)
@@ -163,15 +163,15 @@ class DataManager(object):
         return sim
 
     def get_documents_by_term(self, word):
-        return self.inverted_file.get_documents(word)
+        return self.__inverted_file.get_documents(word)
 
     def get_documents_by_terms(self, words):
         candidates = set()
         have_illegal_words = False
         illegal_words = []
         for word in words:
-            if self.inverted_file.exist(word):
-                candidates.update(self.inverted_file.get_documents(word))
+            if self.__inverted_file.exist(word):
+                candidates.update(self.__inverted_file.get_documents(word))
             else:
                 have_illegal_words = True
                 illegal_words.append(word)
@@ -183,10 +183,10 @@ class DataManager(object):
         return candidates
 
     def get_top_n_terms(self, did, n):
-        document = self.documents[did]
+        document = self.__documents[did]
         rank_list = {}
         for word in document.get_terms():
-            rank_list[word] = self.vspace.get_weight(did, self.dictionary[word])
+            rank_list[word] = self.__vspace.get_weight(did, self.__dictionary[word])
 
         n = min(n, len(rank_list.keys()))
         return sorted(rank_list.items(), key = lambda x: x[1], reverse = True)[: n]
@@ -195,22 +195,22 @@ class DataManager(object):
         ret = []
         rank_list = {}
         candidates = self.get_documents_by_terms(query.get_terms())
-        query_vector = np.zeros(len(self.dictionary))
+        query_vector = np.zeros(len(self.__dictionary))
 
         for word in query.get_terms():
-            if word in self.dictionary.keys():
-                query_vector[self.dictionary[word]] = query.get_tf(word)
+            if word in self.__dictionary.keys():
+                query_vector[self.__dictionary[word]] = query.get_tf(word)
 
         for did in candidates:
-            document = self.documents[did]
-            sim = self.similarity(self.vspace.get_weights_vector(did), query_vector)
+            document = self.__documents[did]
+            sim = self.similarity(self.__vspace.get_weights_vector(did), query_vector)
             rank_list[did] = sim
 
         result = sorted(rank_list.items(), key = lambda x: x[1], reverse = True)[:3]
 
         for did, sim in result:
-            document = self.documents[did]
-            magnitude = self.magnitude(self.vspace.get_weights_vector(did))
+            document = self.__documents[did]
+            magnitude = self.magnitude(self.__vspace.get_weights_vector(did))
             num_terms = len(document.get_terms())
             words = self.get_top_n_terms(did, 5)
             postinglist = []
@@ -223,7 +223,7 @@ class DataManager(object):
 
     def display_posting_list(self, word, dids):
         for did in dids:
-            self.documents[did].display_term_index(word)
+            self.__documents[did].display_term_index(word)
 
 class VSM(object):
     '''
@@ -234,7 +234,7 @@ class VSM(object):
     '''
     def __init__(self, input_path):
         word_file_map, documents = self.load_documents(input_path)
-        self.data_manager = DataManager(word_file_map, documents)
+        self.__data_manager = DataManager(word_file_map, documents)
 
     def pre_process(self, passage):
         passage = passage.strip()
@@ -289,7 +289,7 @@ class VSM(object):
         print('DID: %d' % result.get_id())
         for word, dids in result.get_list():
             print('%-8s -> |' % word, end = '')
-            self.data_manager.display_posting_list(word, dids)
+            self.__data_manager.display_posting_list(word, dids)
             print()
         print('Number of unique keywords in document: %s'
               % result.get_num())
@@ -304,7 +304,7 @@ class VSM(object):
 
         query = Vector(query)
 
-        query_result = self.data_manager.get_query_result(query)
+        query_result = self.__data_manager.get_query_result(query)
         for result in query_result:
             self.display_result(result)
             print('----------------------------------------')

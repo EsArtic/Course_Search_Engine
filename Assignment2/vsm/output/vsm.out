@@ -1,4 +1,4 @@
-Query: ['bank']
+Query1: ['bank']
 ----------------------------------------
 DID: 83
 bank     -> | D19:22 | D29:12,36 | D52:22 | D59:3,27 | D72:7 | D83:1,18,23 | D88:17 | D89:20 | D91:24 |
@@ -32,7 +32,7 @@ Similarity score: 0.24
 ----------------------------------------
 Spended Time: 0.000000s
 
-Query: ['stock', 'banking']
+Query2: ['stock', 'banking']
 ----------------------------------------
 DID: 18
 week     -> | D0:3 | D1:1 | D3:18 | D18:3,26 | D27:25 | D51:3,26 | D57:25 |
@@ -66,7 +66,7 @@ Similarity score: 0.25
 ----------------------------------------
 Spended Time: 0.000000s
 
-Query: ['company', 'share']
+Query3: ['company', 'share']
 ----------------------------------------
 DID: 64
 repeated -> | D64:1 |
@@ -100,7 +100,7 @@ Similarity score: 0.30
 ----------------------------------------
 Spended Time: 0.000000s
 
-Query: ['company', 'benefit', 'share']
+Query4: ['company', 'benefit', 'share']
 ----------------------------------------
 DID: 67
 benefit  -> | D67:14,29 |
@@ -134,7 +134,7 @@ Similarity score: 0.25
 ----------------------------------------
 Spended Time: 0.000000s
 
-Query: ['Brown', 'Forman']
+Query5: ['Brown', 'Forman']
 ----------------------------------------
 DID: 81
 Brown    -> | D77:0,12 | D78:0 | D79:0 | D80:0 | D81:0,10,26 | D82:0 |
