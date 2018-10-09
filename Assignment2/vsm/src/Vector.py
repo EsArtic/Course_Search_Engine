@@ -60,7 +60,7 @@ class Vector(object):
         return sorted(self.__weights.items(), key = lambda x: x[1], reverse = True)[: n]
 
     def display_term_index(self, term):
-        print(' D%d:' % self.__did, end = '')
+        print(' D%d:' % (self.__did + 1), end = '')
         print('%d' % self.__term_index[term][0], end = '')
         for i in range(1, len(self.__term_index[term])):
             print(',%d' % self.__term_index[term][i], end = '')

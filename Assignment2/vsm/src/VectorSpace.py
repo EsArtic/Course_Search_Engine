@@ -16,7 +16,7 @@ class VSM(object):
         self.__data_manager = DataManager(word_file_map, documents)
 
     def pre_process(self, passage):
-        passage = passage.strip()
+        passage = passage.lower()
         for i in range(len(passage)):
             char = passage[i]
             if char.isalpha() or char.isdigit():
@@ -65,7 +65,7 @@ class VSM(object):
         return word_file_map, documents
 
     def display_result(self, result):
-        print('DID: %d' % result.get_id())
+        print('DID: %d' % (result.get_id() + 1))
         for word, dids in result.get_list():
             print('%-8s -> |' % word, end = '')
             self.__data_manager.display_posting_list(word, dids)
@@ -96,7 +96,8 @@ class VSM(object):
         input_queries = open(input_path, 'r')
         num = 1
         for line in input_queries:
+            line = line.strip()
+            print('Query %d: %s' % (num, line))
             query = self.pre_process(line)
-            print('Query%d: %s' % (num, query))
             self.do_query(query)
             num += 1
