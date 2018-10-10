@@ -1,26 +1,23 @@
 #!/usr/bin/python
 
 import sys
+import argparse
 
 from VectorSpace import VSM
 
-# COLLECTION_PATH = '../data/'
-# QUERY_PATH = '../query/'
-# OUTPUT_PATH = '../output/'
-
 def main():
-    collection = 'collection-100.txt'
-    queries = 'query-10.txt'
-    output = None
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--collection', type = str, required = True,
+                        help = 'Path of the documents collection file')
+    parser.add_argument('-q', '--query', type = str, required = True,
+                        help = 'Path of the queries collection file')
+    args = parser.parse_args()
+    COLLECTION_FOLDER = '../collection'
+    QUERY_FOLDER = '../query'
+    collections = '%s/%s' % (COLLECTION_FOLDER, args.collection)
+    queries = '%s/%s' % (QUERY_FOLDER, args.query)
 
-    if len(sys.argv) > 1:
-        collection = sys.argv[1]
-
-    if len(sys.argv) > 2:
-        queries = sys.argv[2]
-
-    vsm_object = VSM(collection)
-    # vsm_object.do_query(['is', 'a', 'bank'])
+    vsm_object = VSM(collections)
     vsm_object.batch_query(queries)
 
 if __name__ == '__main__':

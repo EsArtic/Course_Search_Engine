@@ -99,5 +99,7 @@ class VSM(object):
             line = line.strip()
             print('Query %d: %s' % (num, line))
             query = self.pre_process(line)
+            if len(query) == 0:
+                print('No keyword remained after preprocessing.')
             self.do_query(query)
             num += 1
