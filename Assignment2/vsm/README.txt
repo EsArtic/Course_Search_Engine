@@ -1,3 +1,6 @@
+The program is implement by python 3.6.
+Before running the program, please make sure that there is no version conflict.
+
 If you are using Linux/Mac OS, please use run.sh or save.sh to run the program.
 If you are using Windows OS, please use run.bat or save.bat to run the program.
 

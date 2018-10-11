@@ -56,6 +56,15 @@ class Vector(object):
         return self.__weights.values()
 
     def get_top_n_terms(self, n):
+        '''
+            Find n highest weighted keywords of the document.
+
+            Args:
+                n: int, the number of documents to be found.
+
+            Returns:
+                list, containing the retrieved document ids and the corresponding weights.
+        '''
         n = min(n, len(self.__weights.keys()))
         return sorted(self.__weights.items(), key = lambda x: x[1], reverse = True)[: n]
 

@@ -39,6 +39,16 @@ class DataManager(object):
         return sim
 
     def get_query_result(self, query):
+        '''
+            Compute and generate query result.
+
+            Args:
+                query: Vector, the vector instance of current query.
+
+            Returns:
+                ret: list, list containing n QueryResult instance. According to the
+                requirement, the value of n here is 3.
+        '''
         ret = []
         rank_list = {}
         candidates = self.get_documents_by_terms(query.get_terms())
@@ -66,6 +76,16 @@ class DataManager(object):
         return self.__inverted_file.get_documents(word)
 
     def get_documents_by_terms(self, words):
+        '''
+            Retrieve documents that containing one of the terms in query text and
+            detect "illegal" words to display warning message.
+
+            Args:
+                words: list, containing the preprocessed words in query text.
+
+            Returns:
+                candidates: set, containing the retrieved document ids.
+        '''
         candidates = set()
         have_illegal_words = False
         illegal_words = []
