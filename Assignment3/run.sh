@@ -1,0 +1,1 @@
+python svd.py > output
